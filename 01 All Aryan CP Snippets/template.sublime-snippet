@@ -1,0 +1,32 @@
+<snippet>
+	<content><![CDATA[
+/*
+*	Author: Aryan Mittal
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define pb push_back
+#define mod 1000000007;
+#define inf (1LL<<60)
+#define all(x) (x).begin(), (x).end()
+#define prDouble(x) cout << fixed << setprecision(10) << x
+#define triplet pair<ll, pair<ll,ll>>
+#define err(x) cout<< "Case #" << x <<": "
+#define fast_io ios_base::sync_with_stdio(false);cin.tie(NULL)
+#define read(x) int x; cin >> x
+
+int main()
+{
+	// Shortcut to run the program is Ctrl + Shift + B
+	// Shortcut to run using separate test is Ctrl + Alt + B
+
+	$1
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.cpp</scope> -->
+</snippet>
