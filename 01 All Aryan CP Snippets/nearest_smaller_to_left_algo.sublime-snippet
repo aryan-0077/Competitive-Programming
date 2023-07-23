@@ -1,0 +1,64 @@
+<snippet>
+	<content><![CDATA[
+
+// Nearest smaller to left and Nearest smaller to right
+// 6
+// 2 4 4 9 4 9
+
+// 1 2 2 4 2 6  
+// 6 6 6 4 6 6
+		ll n;
+        cin >> n;
+
+        ll a[n + 6];
+        for (ll i = 1; i <= n; i++)
+        {
+            cin >> a[i];
+        }
+
+        ll left[n + 6] = {0};
+        stack<ll> s;
+        for (ll i = 1; i <= n; i++)
+        {
+            while (!s.empty() && a[s.top()] >= a[i])
+                s.pop();
+
+            if (s.empty())
+            {
+                left[i] = 1;
+            }
+            else
+            {
+                left[i] = s.top() + 1;
+            }
+
+            s.push(i);
+        }
+
+        stack<ll> s2;
+        ll right[n + 6] = {0};
+        for (ll i = n; i >= 1; i--)
+        {
+            while (!s2.empty() && a[s2.top()] >= a[i])
+                s2.pop();
+
+            if (s2.empty())
+            {
+                right[i] = n;
+            }
+            else
+            {
+                right[i] = s2.top() - 1;
+            }
+
+            s2.push(i);
+        }
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>nearest_smaller_to_left_algo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

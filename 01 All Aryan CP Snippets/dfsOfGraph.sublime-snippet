@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+// src - Source Node / Starting Node
+// vector<int> vis(n, 0);
+// vector<vector<int>> gr(n);
+void dfs(int src, vector<int>& vis, vector<vector<int>>& gr) {
+	vis[src] = 1;
+	cout << src << " -> ";
+	for (auto child : gr[src]) {
+		if (vis[child] == 0)
+			dfs(child, vis, gr);
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dfsOfGraph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

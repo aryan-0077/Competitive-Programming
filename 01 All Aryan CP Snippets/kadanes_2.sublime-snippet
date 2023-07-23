@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+
+// Kadane's Algorithm 2-> Maximum Sub-array Sum
+// Also takes consideration of all negative elements 
+// fw--> Current maximum subarray sum till ith index starting from 1
+// bw--> Current maximum subarray sum from ith index starting form n
+ll kadanes2(vector<ll> &a){
+	ll n = a.size();
+	vector<ll> fw(n+3, 0), bw(n+4, 0);
+
+	ll cur_max = a[0];
+	ll max_so_far = a[0];
+	fw[0] = a[0];
+	// fw = [..] [....] [...] -> kadanes gives answer like this
+	// Ex: -1 4 -1 2  ( 4 elements)
+	for(ll i=1;i<n;i++){
+		cur_max = max(a[i], cur_max+a[i]);
+		max_so_far = max(max_so_far, cur_max);
+		fw[i] = cur_max;
+	}
+	// fw:  -1 4 3 5
+	// Making prefix max of fw -> Maximum Sub-array sum obtainable in the range from [0 to i], it cam be any range of subarray in this range
+	for(ll i=1;i<n;i++)
+		fw[i] = max(fw[i], fw[i-1]);
+	// fw:  -1 4 4 5
+
+	cur_max = a[n-1];
+	max_so_far = a[n-1];
+	bw[n-1] = a[n-1];
+	// Same as above
+	for(ll i=n-2;i>=0;i--){
+		cur_max = max(a[i], cur_max+a[i]);
+		max_so_far = max(max_so_far, cur_max);
+		bw[i] = cur_max;
+	}
+	// Making suffix max of bw -> Maximum Sub-array sum obtainable in the range from [i to n-1], it cam be any range of subarray in this range
+	for(ll i=n-2;i>=0;i--)
+		bw[i] = max(bw[i], bw[i+1]);
+
+	return fw[n-1]; // It is the maximum sub-array sum of array but can be negative
+	// if you dont want to get negative answer -> return max(fw[n-1], 0ll);
+}	
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kadanes_2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

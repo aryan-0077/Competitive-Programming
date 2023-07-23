@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+// Kadane's Algorithm
+// Find Maximum Subarray Sum in an array nums
+int maxSubArray(vector<int>& nums) {
+        int curMax = 0, maxTillNow = INT_MIN;
+        for(auto c : nums)
+            curMax = max(c, curMax + c),
+            maxTillNow = max(maxTillNow, curMax);
+        return maxTillNow;
+    }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kadanes_algorithm</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

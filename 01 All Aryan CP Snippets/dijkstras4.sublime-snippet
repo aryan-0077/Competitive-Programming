@@ -1,0 +1,83 @@
+<snippet>
+	<content><![CDATA[
+int N; // Total NUmber of Nodes/Vertices
+// By default pass -> skip_negative as "true" // although you pass anything, it will still work
+auto dijkstra(int source, const vector<vector<pair<int, int>>>& adj, bool skip_negative) {
+        using pii = pair<int, int>;
+        priority_queue<pii, vector<pii>, greater<pii>> pq;
+        unordered_map<int, int> dist;
+        
+        for(int i=0;i<N;i++){
+            dist[i] = (int)2e9;
+        }
+        
+        dist[source] = 0;
+        unordered_map<int, int> parent;
+        
+        pq.push({0, source});
+        
+        while (!pq.empty()) {
+            int d = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+            
+            if (d > dist[node]) {
+                continue;
+            }
+            
+            for (const auto& neighbor : adj[node]) {
+                int nei = neighbor.first;
+                int w = neighbor.second;
+                
+                if (w == -1) {
+                    if (skip_negative) {
+                        continue;
+                    }
+                    w = 1;
+                }
+                
+                int d2 = d + w;
+                
+                if (d2 < dist[nei]) {
+                    dist[nei] = d2;
+                    parent[nei] = node;
+                    pq.push({d2, nei});
+                }
+            }
+        }
+        
+        return make_pair(dist, parent);
+}
+
+
+
+// HOW TO USE THE CODE
+/*
+
+vector<vector<pair<int, int>>> adj(n);
+N=n;
+for (const auto& edge : edges) {
+    int u = edge[0];
+    int v = edge[1];
+    int w = edge[2];
+    adj[u].push_back({v, w});
+    adj[v].push_back({u, w});
+}
+
+auto [dist, parent] = dijkstra(source, adj, false);
+
+
+// TO GET THE PATH
+vector<int> path = {destination};
+while (path.back() != source) {
+    path.push_back(parent[path.back()]);
+}
+reverse(path.begin(), path.end());
+
+*/
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstras4</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

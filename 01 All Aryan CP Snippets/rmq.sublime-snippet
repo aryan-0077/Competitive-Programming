@@ -1,0 +1,47 @@
+<snippet>
+	<content><![CDATA[
+
+struct RMQ
+{
+    vector<ll> v;
+    vector<ll> log_table;
+    vector<vector<ll>> sparse_table;
+
+    void build_rmq(vector<ll> &arr)
+    {
+        v.clear();
+        log_table.clear();
+        sparse_table.clear();
+        for (auto el : arr)
+            v.push_back(el);
+        log_table.resize(v.size() + 1, 0);
+        for (ll i = 2; i < log_table.size(); i++)
+            log_table[i] = log_table[i / 2] + 1;
+
+        sparse_table.resize(log_table.back() + 1, vector<ll>(v.size()));
+        sparse_table[0] = v;
+        for (ll row = 1; row < sparse_table.size(); row++)
+        {
+            for (ll i = 0; i + (1 << row) <= v.size(); i++)
+            {
+                sparse_table[row][i] = min(sparse_table[row - 1][i], sparse_table[row - 1][i + (1 << (row - 1))]);
+            }
+        }
+    }
+
+    ll query_range(ll l, ll r)
+    {
+        r++;
+        ll log = log_table[r - l];
+        ll minimum = min(sparse_table[log][l], sparse_table[log][r - (1 << log)]);
+        return minimum;
+    }
+} rmq;
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rmq</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

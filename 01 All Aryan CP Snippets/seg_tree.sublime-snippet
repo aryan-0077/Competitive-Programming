@@ -1,0 +1,70 @@
+<snippet>
+	<content><![CDATA[
+
+// Make every Array 0 **** IMPORTANT ****
+// Range minimum Query
+#define N 100005
+ll tree[4*N] , A[N];
+
+// 0 to n-1 of array A and 1 for tree
+// built_tree(0,n-1,1);
+void built_tree(ll s,ll e,ll idx){
+	if(s==e){
+		tree[idx] = A[s];
+		return;
+	}
+
+	ll mid = (s+e)/2;
+	built_tree(s,mid,2*idx);
+	built_tree(mid+1,e,2*idx+1);
+
+	tree[idx] = min(tree[2*idx] , tree[2*idx+1]);   //Change
+	return;
+}
+
+
+// query(0, n-1, l, r, 1);
+ll query(ll ss,ll se,ll qs,ll qe,ll idx){
+	// complete overlap
+	if(ss>=qs && se<=qe)
+		return tree[idx];
+
+	// No Overlap
+	if(qe<ss || qs>se)
+		return INT_MAX;      // change
+
+	// Partial Overlap
+	ll mid = (ss + se)/2;
+	ll lans = query(ss,mid,qs,qe,2*idx);
+	ll rans = query(mid+1,se,qs,qe,2*idx+1);
+
+	return min(lans,rans);       //change
+}
+
+// i is the index in the array which needs to be incremented by inc 
+// update_node(0, n-1, i, val, 1);
+void update_node(ll ss,ll se,ll i,ll inc, ll idx){
+	if(i>se || i<ss)
+		return;
+
+	if(ss == se){
+		tree[idx] += inc;     //change
+		return;
+	}
+
+	ll mid = (ss+se)/2;
+	update_node(ss,mid,i,inc,2*idx);
+	update_node(mid+1,se,i,inc,2*idx+1);
+
+	tree[idx] = min(tree[2*idx] , tree[2*idx+1]);      //change
+	return;
+}
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>seg_tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

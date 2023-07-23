@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+
+const ll N = 1004;
+ll d[N][N];
+ll vis[N][N];
+vector<pll> gr[N];
+ll n, m, k;
+
+void dijkstras2(ll s)
+{
+    priority_queue<pll, vector<pll>, greater<pll>> pq;
+    pq.push({0, s}); //dist node
+
+    while (!pq.empty())
+    {
+        pll best = pq.top();
+        pq.pop();
+
+        ll dis = best.first;
+        ll to = best.second;
+
+        if (vis[s][to] == 1)
+            continue;
+
+        d[s][to] = dis;
+        vis[s][to] = 1;
+
+        for (auto x : gr[to])
+        {
+            if (vis[s][x.first] == 0)
+            {
+                pq.push({dis + x.second, x.first});
+            }
+        }
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstras2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

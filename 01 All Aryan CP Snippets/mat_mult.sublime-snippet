@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+
+// Matrix Multiplication
+vector<vl> mat_mult(vector<vl>&A, vector<vl>&B){
+	ll r1 = A.size();
+	ll c1 = A[0].size();
+
+	ll r2 = B.size();
+	ll c2 = B[0].size();
+
+	vector<vl> C(r1, vl(c2, 0));
+
+	for(ll i=0;i<r1;i++){
+		for(ll j=0;j<c2;j++){
+			for(ll k=0;k<c1;k++){
+				C[i][j] += A[i][k]*B[k][j];
+			}
+		}
+	}
+
+	return C;
+}
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mat_mult</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

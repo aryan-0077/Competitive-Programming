@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+
+// Floyd Warshall
+
+#define inf 1e12
+const ll N = 509;
+vector<vl> gr(N, vl(N, inf));
+ll n, m;
+
+void floyd_warshall1()
+{
+    for (ll i = 1; i <= n; i++)
+        gr[i][i] = 0;
+
+    for (ll k = 1; k <= n; k++)
+    {
+        for (ll i = 1; i <= n; i++)
+        {
+            for (ll j = 1; j <= n; j++)
+            {
+                if (gr[i][k] < inf && gr[k][j] < inf)
+                    gr[i][j] = min(gr[i][j], gr[i][k] + gr[k][j]);
+            }
+        }
+    }
+}
+
+
+	// while (m--)
+ //    {
+ //        ll a, b, w;
+ //        cin >> a >> b >> w;
+
+ //        gr[a][b] = min(gr[a][b], w);
+ //        gr[b][a] = min(gr[b][a], w);
+ //    }
+
+ //    floyd_warshall1();
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>floyd_warshall1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

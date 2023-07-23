@@ -1,0 +1,10 @@
+{
+	"trim_automatic_white_space": false,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"theme": "Default Dark.sublime-theme",
+	"font_size": 13,
+}

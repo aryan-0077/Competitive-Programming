@@ -1,0 +1,66 @@
+<snippet>
+	<content><![CDATA[
+
+#define ll long long int
+#define N 100005
+// Dijkstra with Path:
+ll arrival[N], departure[N], vis[N], parent[N];
+vector<pair<ll, ll> > gr[N];
+
+ll dijkstras(ll source, ll destination)
+{
+	// n is the biggest node value in the Graph
+	for(ll i=0;i<=n;i++)
+	{
+		arrival[i]=1e18;
+		departure[i]=1e18;
+		vis[i]=0;
+	}
+	arrival[source]=0;
+	set<pair<ll, ll> > s;
+	s.insert({0, source});
+	while(!s.empty())
+	{
+		auto x = *(s.begin());
+		s.erase(x);
+		vis[x.second]=1;
+		departure[x.second]=arrival[x.second];
+		for(auto it:gr[x.second])
+		{
+			if(arrival[it.first] > departure[x.second] + it.second)
+			{
+				s.erase({arrival[it.first], it.first});
+				arrival[it.first]=departure[x.second] + it.second;
+				s.insert({arrival[it.first], it.first});
+				parent[it.first]=x.second;
+			}
+		}
+	}
+	if(!vis[destination])
+	{
+		cout<<"-1";
+		return -1;
+	}
+	ll v=destination;
+	vector<ll> ans;
+	while(parent[v])
+	{
+		ans.push_back(v);
+		v=parent[v];
+	}
+	ans.push_back(source);
+	reverse(ans.begin(), ans.end());
+	for(auto it:ans)
+		cout<<it<<" ";
+	
+	cout<<arrival[destination]<<endl;
+	return arrival[destination];
+}
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstras3</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

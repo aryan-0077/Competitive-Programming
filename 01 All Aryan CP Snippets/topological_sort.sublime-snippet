@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+
+// Topological Sort ( White - Black - Grey Colouring )
+const ll N=200009;
+vector<ll> gr[N];
+ll vis1[N]; // White colour
+vl order;
+
+void dfs1(ll src){
+	vis1[src] = 1; // Black Colour
+	for(auto ne: gr[src]){
+		if(vis1[ne] == 1){
+			// Graph is NOT a DAG
+			cout<<"NO"<<nl;
+			exit(0);
+		}
+		if(vis1[ne] == 2){
+			continue;
+		}
+		dfs1(ne);
+	}
+	order.pb(src);
+	vis1[src] = 2; // Grey Colour
+}
+
+// for(ll i=1;i<=n;i++){
+// 	if(!vis1[i])
+// 			dfs1(i);
+// }
+// reverse(all(order));  // This is the corredt order of topologial sort
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>topological_sort</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

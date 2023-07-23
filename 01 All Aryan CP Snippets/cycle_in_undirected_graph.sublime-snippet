@@ -1,0 +1,34 @@
+<snippet>
+	<content><![CDATA[
+// Function to detect cycle in an undirected graph.
+bool cycleInUndirectedGraph(int node, vector<int> gr[], vector<bool>& vis, int par){
+    vis[node] = true;
+    for(auto child : gr[node]){
+        if(vis[child] == false){
+            if(cycleInUndirectedGraph(child, gr, vis, node) == true)
+                return true;
+        }else if(child != par){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isCycle(int V, vector<int> gr[]) {
+    // Code here
+    vector<bool> vis(V);
+    for(int node = 0;node<V ;node++){
+        if(vis[node] == false){
+            if(cycleInUndirectedGraph(node, gr, vis, -1))
+                return true;
+        }
+    }
+    
+    return false;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cycle_in_undirected_graph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,80 @@
+<snippet>
+	<content><![CDATA[
+
+// Lowest Common Ancestor & Distance b/w 2 Nodes
+const ll N = 100009;
+const ll maxN = 20;
+vector<ll> gr[N];
+ll level[N];
+ll LCA[N][maxN + 1];
+void dfs(ll node, ll lvl, ll par){
+    level[node] = lvl;
+    LCA[node][0] = par;
+    for(auto ch : gr[node]){
+        if(ch != par){
+            dfs(ch, lvl + 1, node);
+        }
+    }
+}
+void init(ll n){
+    dfs(1, 0, -1);
+    for (ll i = 1; i <= maxN; i++){
+        for (ll j = 1; j <= n;j++){
+            if(LCA[j][i-1] != -1){
+                ll par = LCA[j][i - 1];
+                LCA[j][i] = LCA[par][i - 1];
+            }
+        }
+    }
+}
+ll getLCA(ll a, ll b){
+    if(level[b] < level[a])
+        swap(a, b);
+    ll d = level[b] - level[a];
+    while(d>0){
+        ll i = log2(d);
+        b = LCA[b][i];
+        d = d - (1 << i);
+    }
+    if(a==b){
+        return a;
+    }
+    for (ll i = maxN; i >= 0;i--){
+        if(LCA[a][i] != -1 && LCA[a][i] != LCA[b][i]){
+            a = LCA[a][i];
+            b = LCA[b][i];
+        }
+    }
+    return LCA[a][0];
+}
+ll getDist(ll a, ll b){
+    ll lca = getLCA(a, b);
+    return level[a] + level[b] - 2 * level[lca];
+}
+
+// USE LIKE THIS !!
+// for(ll i=0;i<=n;i++){
+// 	gr[i].clear();
+// 	level[i] =0;
+// 	for(ll j=0;j<=maxN;j++){
+// 		LCA[i][j] =-1;
+// 	}
+// }
+
+// for(ll i=1;i<n;i++){
+// 	ll u, v;
+// 	cin>>u>>v;
+// 	gr[u].pb(v);
+// 	gr[v].pb(u);
+// }
+
+// init(n);
+// ll d = getDist(a, b); // log(N)
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lca</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

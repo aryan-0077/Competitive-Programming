@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+
+const ll N=2e5+7;
+const ll maxn = N;
+
+struct fenwick{
+	ll BIT[maxn];
+
+	// it should be 1 based if not then inc i
+	ll query(ll i){
+		i++;
+		ll sum = 0;
+		while(i>0){
+			sum = sum + BIT[i];
+			i = i - (i & -i);
+		}
+		return sum;
+	}
+
+	void update(ll i,ll val){
+		i++;
+
+		//if(i<1) return;
+		while(i <= maxn){
+			BIT[i] = BIT[i] + val;
+			i = i + (i & -i);
+		}
+	}
+
+	void rupdate(ll l,ll r,ll val){
+		update(l,val);
+		update(r+1, -val);
+	}
+
+}fenw;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,84 @@
+<snippet>
+	<content><![CDATA[
+
+// Mod Operations
+ll fast_mod_exp(ll a, ll b, ll m = MOD)
+{
+    ll res = 1;
+    while (b > 0)
+    {
+        if (b & 1)
+            res = (res * a) % m;
+
+        a = (a * a) % m;
+        b = b >> 1;
+    }
+
+    return res;
+}
+
+ll mod_inverse(ll a, ll m = MOD)
+{
+    // m is prime
+    return fast_mod_exp(a, m - 2, m);
+}
+ll add(ll x, ll y, ll m = MOD)
+{
+    x = x%m;
+    y = y%m;
+    ll res = x + y;
+    res = res%m;
+    return (res >= m ? res - m : res);
+}
+ll mul(ll x, ll y, ll m=MOD)
+{
+    x = x%m;
+    y = y%m;
+    ll res = x * y;
+    return (res >= m ? res % m : res);
+}
+ll sub(ll x, ll y, ll m = MOD)
+{
+    x = x%m;
+    y = y%m;
+    ll res = x - y;
+    res = (res + m)%m;
+    return (res < 0 ? res + m : res);
+}
+ll divide(ll x, ll y, ll m = MOD)
+{
+    return mul(x, mod_inverse(y, m));
+}
+
+
+ll mod_inverse(ll a,ll m=MOD){
+	// m is prime
+	return fast_mod_exp(a,m-2,m);
+}
+
+const ll N = 300500;
+ll fact[N];
+ll invFact[N];
+
+void precompute() {
+	fact[0] = invFact[0] = 1;
+    for (int i = 1; i < N; i++) {
+        fact[i] = (fact[i - 1] * i) % MOD;
+        invFact[i] = mod_inverse(fact[i], MOD);
+    }
+}
+
+ll ncr(ll n, ll r, ll p=MOD) {
+	if (r > n)
+		return 0;
+
+	return ((fact[n] * invFact[r]) % p * invFact[n-r]%p) % p;
+}
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ncr</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

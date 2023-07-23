@@ -1,0 +1,171 @@
+<snippet>
+	<content><![CDATA[
+
+// lazy segment tree
+struct my_node
+{
+	ll res=0;
+	// ll id=-1;
+	// use more variables if you want more information
+	// these default values should be identity_element
+	my_node(){}
+	my_node(ll val){
+		res = val;
+	}
+	void merge(const my_node &l,const my_node &r){ // store the thing you wanna query
+ 		res = l.res + r.res;
+		// if we wanted the maximum, then we would do
+		// like res = max(l.res,r.res)
+	}
+};
+ 
+// example: add on a range: identity transformation = 0
+// old += new
+ 
+// if old is identity which is 0, then 0 + new which new
+ 
+struct my_update
+{
+	ll v = 0; // 4
+	// use more variables if you want more information
+	// these default values should be identity_transformation
+	my_update(){}
+	my_update(ll val){
+		v = val; // 5
+	}
+	// combine the current my_update with the other my_update (see keynotes)
+	void combine(my_update &other,const int32_t &tl,const int32_t &tr){
+		v += other.v; // 6  
+		// you can be sure that the "other" is newer than current
+	}
+
+	// store the correct information in the my_node x
+	void apply(my_node &x,const int32_t &tl,const int32_t &tr){
+ 		x.res = (tr-tl+1)*v;
+	}
+};
+ 
+template<typename node,typename update>
+struct segtree
+{
+	int len;
+	vector<node> t; // Our main tree
+	vector<update> u; // Our Lazy result
+	vector<bool> lazy; // Is it having lazy value or not
+	node identity_element; // As in the node code, default value
+	update identity_transformation; // As in the update code, default value
+	void init(int l)
+    {
+        len = l;
+        t.resize(4 * len);
+        u.resize(4 * len);
+        lazy.resize(4 * len);
+        identity_element = node();
+        identity_transformation = update();
+    }
+
+	// If i land on a node and it has lazy value, then lazy value needs to be send down
+	void pushdown(const int32_t &v, const int32_t &tl, const int32_t &tr){
+		if(!lazy[v]) return;
+		int32_t tm = (tl + tr) >> 1;
+		apply(v<<1,tl,tm,u[v]);
+		apply(v<<1|1,tm+1,tr,u[v]);
+		u[v] = identity_transformation;
+		lazy[v] = 0;
+	}
+
+	// Apply the update to the node (If it is not leaf, then mark it LAZY and combine the update with previous update) then update it with correct value, Now if it is not leaf then it will be lazy with lazy value which needs to be dropped down on future entry to this node or going to its children
+	void apply(const int32_t &v, const int32_t &tl, const int32_t &tr, update upd){
+		if(tl != tr){
+			lazy[v] = 1;
+			u[v].combine(upd,tl,tr);
+		}
+		upd.apply(t[v],tl,tr);
+	}
+ 	
+ 	// Building my Actual Segement tree
+ 	// arr, v=1, tl=0, tr=len-1
+	template<typename T>
+	void build(const T &arr,const int32_t &v, const int32_t &tl, const int32_t &tr){
+		if(tl == tr){
+			t[v] = arr[tl];
+			// t[v].res = arr[tl];
+			// t[v].id = tl;
+			return;
+		}
+		int32_t tm = (tl + tr) >> 1;
+		build(arr,v<<1,tl,tm);
+		build(arr,v<<1|1,tm+1,tr);
+		t[v].merge(t[v<<1],t[v<<1|1]);
+	}
+ 	
+ 	// I will query from [l to r], (tl=0, tr=len-1) & (v=1 i.e root)
+ 	// v=1, tl=0, tr=len-1, (l, r)
+	node query(const int32_t &v,const int32_t &tl,const int32_t &tr,const int32_t &l,const int32_t &r){
+		if(l > tr || r < tl){
+			return identity_element;
+		}
+		if(tl >= l && tr <= r){
+			return t[v]; // Returing the value stored in the node, I can return anything like index etc.
+		}
+		pushdown(v,tl,tr);
+		int32_t tm = (tl + tr) >> 1;
+		node a = query(v<<1,tl,tm,l,r),b = query(v<<1|1,tm+1,tr,l,r),ans;
+		ans.merge(a,b);
+		return ans;
+	}
+ 
+	// rupd = range update
+	// v=1, tl=0, tr=len-1, (l, r, upd)
+	void rupd(const int32_t &v,const int32_t &tl,const int32_t &tr,const int32_t &l,const int32_t &r,const update &upd){
+		if(l > tr || r < tl){
+			return;
+		}
+		if(tl >= l && tr <= r){
+			apply(v,tl,tr,upd);
+			return;
+		}
+		pushdown(v,tl,tr);
+		int32_t tm = (tl + tr) >> 1;
+		rupd(v<<1,tl,tm,l,r,upd);
+		rupd(v<<1|1,tm+1,tr,l,r,upd);
+		t[v].merge(t[v<<1],t[v<<1|1]);
+	}
+ 
+	public:
+	template<typename T>
+	void build(const T &arr){
+		build(arr,1,0,len-1);
+	}
+	node query(const int32_t &l,const int32_t &r){
+		return query(1,0,len-1,l,r);
+	}
+	void rupd(const int32_t &l,const int32_t &r,const update &upd){
+		rupd(1,0,len-1,l,r,upd);
+	}
+};
+
+
+// SIMPLE LAZY SEGMENT TREE
+// segtree<my_node,my_update> s; 
+// vector<int> v(n);
+// s.init(n);
+// s.build(v);
+// s.rupd(2,5,8);
+// s.query(i,i).res
+
+// ARRAY OF SEG TREE
+// segtree<my_node,my_update> s[m];
+// Making Array of vectors, array size m and vector size n
+// s[i].init(n) // n is vector size
+// s[i].build(v)
+// s[i].rupd(l, r, val)
+// s[i].query(l, r).res
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segment_tree_utkarsh</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

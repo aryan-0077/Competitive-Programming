@@ -1,0 +1,64 @@
+<snippet>
+	<content><![CDATA[
+
+class DSU
+{
+public:
+    // When data[x] < 0, x is a root and -data[x] is its tree size. When data[x] >= 0, data[x] is x's parent.
+    // Edges[find(i)] is the number of edges in component whose root is i
+    vector<ll> data;
+    vector<ll> edges;
+    ll components = 0;
+
+    DSU(ll n)
+    {
+        data.assign(n + 1, -1);
+        edges.assign(n + 1, 0);
+        components = n;
+    }
+
+    ll find(ll x)
+    {
+        return data[x] < 0 ? x : data[x] = find(data[x]);
+    }
+
+    ll get_size(ll x)
+    {
+        return -data[find(x)];
+    }
+
+    bool unite(ll x, ll y)
+    {
+        x = find(x);
+        y = find(y);
+
+        if (x == y)
+        {
+            edges[x]++;
+            return false;
+        }
+
+        if (-data[x] < -data[y])
+            swap(x, y); // x should be larger always
+
+        data[x] += data[y];
+        data[y] = x; // x is parent of y
+        edges[x] += edges[y];
+        edges[x]++;
+        components--;
+        return true;
+    }
+};
+// DSU dsu(n);
+// dsu.unite(edgeList[i][0] , edgeList[i][1]);
+// if(dsu.Find(q[0]) == dsu.Find(q[1]))
+// dsu.edges[dsu.find(i)];  // Gives no of edges in that component
+// dsu.get_size(x) //gives the size of the component in which x is present
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

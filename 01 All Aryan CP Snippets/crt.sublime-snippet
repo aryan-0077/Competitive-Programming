@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+
+// Chinese remainder Theorem CRT
+long long GCD(long long a, long long b) { return (b == 0) ? a : GCD(b, a % b); }
+inline long long LCM(long long a, long long b) { return a / GCD(a, b) * b; }
+inline long long normalize(long long x, long long mod) { x %= mod; if (x < 0) x += mod; return x; }
+struct GCD_type { long long x, y, d; };
+GCD_type ex_GCD(long long a, long long b)
+{
+    if (b == 0) return {1, 0, a};
+    GCD_type pom = ex_GCD(b, a % b);
+    return {pom.y, pom.x - a / b * pom.y, pom.d};
+}
+
+// Complexity -> O(t.log(LCM(m1, m2, m3, ... mt)))
+// t pairs we have to find x
+// CHANGE ACCORDINGLY
+// x%m[i] = a[i]  or x = a[i] (mod m[i])
+
+vl crt(vector<ll>&a, vector<ll>&m){
+	ll t = a.size();
+	if(t==0){
+		return {0ll, 1ll};
+	}
+	for(ll i = 0; i < t; i++) normalize(a[i], m[i]);
+    ll ans = a[0];
+    ll lcm = m[0];
+    for(int i = 1; i < t; i++)
+    {
+        auto pom = ex_GCD(lcm, m[i]);
+        int x1 = pom.x;
+        int d = pom.d;
+        if((a[i] - ans) % d != 0) return {0ll, 0ll};
+        ans = normalize(ans + x1 * (a[i] - ans) / d % (m[i] / d) * lcm, lcm * m[i] / d);
+        lcm = LCM(lcm, m[i]); // you can save time by replacing above lcm * n[i] /d by lcm = lcm * n[i] / d
+    }
+    return {ans, lcm};
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>crt</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+
+const ll N = 200009;
+vl gr[N];  //Undirected graph( TREE )
+ll sub_sz[N]; // Sub-tree size of node 
+ll parent[N]; // Parent of node
+
+// Gives the sub-tree size including the node
+void subtree_size(ll node, ll par){
+	sub_sz[node] = 1;
+	parent[node] = par;
+
+	for(auto ne: gr[node]){
+		if(ne == par)
+			continue;
+		subtree_size(ne, node);
+		sub_sz[node] += sub_sz[ne];
+	}
+}
+
+// TO GET THE CENTROID OF THE TREE ..
+// YOU NEED 'n' i.e total number of nodes in a tree, so make it global
+ll get_centroid(ll node){
+	ll cur_root = node;
+	bool flag = true;
+
+	while(flag){
+		flag =  false;
+		for(auto ne:  gr[cur_root]){
+			if(ne == parent[cur_root])
+				continue;
+			if(2*sub_sz[ne] > n){
+				cur_root = ne;
+				flag = true;
+				break;
+			}
+		}
+	}
+
+	for(auto ne: gr[cur_root]){
+		if(ne == parent[cur_root])
+				continue;
+		if(2*sub_sz[ne] == n && ne > cur_root)
+			return ne;
+	}
+	return cur_root;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>tree_algos</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

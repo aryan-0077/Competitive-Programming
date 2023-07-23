@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+
+// Prims Algorithm
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	ll n,m;
+	cin>>n>>m;
+
+	vector<pll> gr[n+1];
+	for(ll i=0;i<m;i++){
+		ll x,y,w;
+		cin>>x>>y>w;
+
+		gr[x].pb({y,w});
+		gr[y].pb({x,w});
+	}
+
+    for(ll i=0;i<=n+3;i++){
+    	vis[i] = 0;
+    }
+
+	priority_queue<pll, vector<pll>, greater<pll>> pq;
+	pq.push({0,1});  // Wt Node
+	ll mst=0;
+	while(!pq.empty()){
+		pll best = pq.top();
+		pq.pop();
+
+		ll wt = best.first;
+		ll to = best.second;
+
+		if(vis[to])
+			continue;
+
+		mst += wt;
+		vis[to] = 1;
+
+		for(auto x : gr[to]){
+			if(vis[x.first]==0)
+				pq.push({x.second, x.first});
+		}
+	}
+
+	cout<<mst<<nl;
+	return 0;
+}
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prims</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

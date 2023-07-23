@@ -1,0 +1,54 @@
+<snippet>
+	<content><![CDATA[
+
+// divisor of n=10 are 1 2 5 10
+vector<ll> divisors(ll n){
+	vector<ll> ans;
+	for(ll i=1;i*i<=n;i++){
+		if(n%i == 0){
+			if(n/i == i)
+				ans.push_back(i);
+			else{
+				ans.push_back(i);
+				ans.push_back(n/i);
+			}
+		}
+	}
+
+	return ans;
+}
+
+// http://oeis.org/A066150 (To get the number of divisors for a particular number)
+// If you have Prime factors of a Number as {prime factor, count }.
+// Either load (sieve & primefactors) or (primefactors)
+vector<ll> all_divisors;
+void generateDivisors_recursive(ll curIndex, ll curDivisor, vector<pll> &arr)
+{
+    if (curIndex == arr.size())
+    {
+        all_divisors.pb(curDivisor);
+        return;
+    }
+
+    for (ll i = 0; i <= arr[curIndex].ss; i++)
+    {
+        generateDivisors_recursive(curIndex + 1, curDivisor, arr);
+        curDivisor *= arr[curIndex].ff;
+    }
+}
+
+// USE THIS ..
+void generateDivisors(vector<pll> &arr){
+	all_divisors.clear();
+	generateDivisors_recursive(0, 1, arr);
+}
+
+// divisors stored in => all_divisors
+// Call function => generateDivisors(arr);
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>divisors</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

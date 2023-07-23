@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+
+// It return LCM of n numbers in the vector
+ll lcm(vector<ll> &v){
+	if(v.size()==0)
+		return 0;
+
+	ll ans = v[0];
+	for(ll i=1;i<v.size();i++){
+		ans = (ans * v[i])/__gcd(ans, v[i]);
+	}
+
+	return ans;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lcm</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
