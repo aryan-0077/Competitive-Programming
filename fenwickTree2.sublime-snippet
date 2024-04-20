@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+
+// FenwickTree with Range Update
+// all queries should be 0-based, although internal working is 1-based
+struct FenwickTree{
+	vector<ll> bit;
+	ll n;
+
+	FenwickTree(ll n){
+		this->n = n+1;
+		bit.assign(n+1, 0ll);
+	}
+
+	void add(ll idx, ll val){
+		for(++idx; idx<n; idx += idx & -idx)
+			bit[idx] += val;
+	}
+
+	void range_add(ll l, ll r, ll val){
+		add(l, val);
+		add(r+1, -val);
+	}
+
+	ll get(ll idx){
+		ll ret = 0;
+		for(++idx; idx>0ll; idx -= idx & -idx)
+			ret += bit[idx];
+		return ret;
+	}
+};
+
+// FenwickTree ft1(n);
+// ft1.range_add(l, r, 1ll);
+// ft1.get(i)
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwickTree2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

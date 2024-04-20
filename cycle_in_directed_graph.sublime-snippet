@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+
+// Detecting cycle in Directed Graph
+const ll N = 200009;
+ll n, m; // Nodes and Directed Edges
+vvl gr[N]; // node -> (ne, edge) ,  (ne, edge)
+ll col[N]; // Just for our colouring, no use as such in end
+ll res[N]; // Coloured direct edges in 1 and back-edges in 2
+bool cyc; // Tells if we have a Cycle in this Directed Graph or not
+
+void dfs(ll node){
+    col[node] = 1; // New Colour ( Current Colouring )
+    for(auto p : gr[node]){
+        ll ne = p[0], edg = p[1];
+        if(col[ne]==0){ // Not yet visited
+            dfs(ne);
+            res[edg] = 1;
+        }else if(col[ne] == 2){ // Outdated colour , means visted but not back-edge
+            res[edg] = 1;
+        }else{ // Current colour vala, means back-edge vala, means cycle present
+            res[edg] = 2;
+            cyc = true;
+        }
+    }
+    col[node] = 2; // After going through this node, mark it outdated
+}
+
+// for (ll i = 1; i <= n;i++){
+//     if(col[i]==0){
+//         dfs(i);
+//     }
+// }
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cycle_in_directed_graph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

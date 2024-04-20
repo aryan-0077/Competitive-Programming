@@ -1,0 +1,61 @@
+<snippet>
+	<content><![CDATA[
+
+const ll MAX = 1e6 + 5;
+bool prime[MAX]; // Is that number prime or not
+ll spf[MAX]; // Smallest prime Factor of that number
+
+void sieve() {
+
+	fill(prime, prime + MAX, true);
+	for (ll i = 1; i < MAX; i++)
+		spf[i] = i;
+	prime[0] = prime[1] = false;
+
+	for (ll i = 2; i * i < MAX; i++) {
+		if (prime[i]) {
+			for (ll j = i * i ; j < MAX ; j += i) {
+				if (prime[j])
+					spf[j] = i;
+				prime[j] = false;
+			}
+		}
+	}
+}
+
+///////////////// SIEVE-2 ( ONLY WHEN YOU WANT DISTINCT NO. OF PRIME FACTORS FAST for multiple queries )  /////////////
+
+const ll MAX = 2e7 + 5;
+bool prime[MAX]; // Is that number prime or not
+ll spf[MAX]; // Smallest prime Factor of that number
+ll cnt[MAX]; // Distinct no of prime factors of any number
+
+void sieve2()
+{
+    fill(prime, prime + MAX, true);
+    for (ll i = 1; i < MAX; i++)
+        spf[i] = i;
+    prime[0] = prime[1] = false;
+
+    for (ll i = 2; i < MAX; i++)  // Only difference between sieve and sieve2 is i*i and i
+    {
+        if (prime[i])
+        {
+            cnt[i] = 1;
+            for (ll j = 2 * i; j < MAX; j += i)
+            {
+                if (prime[j])
+                    spf[j] = i;
+                prime[j] = false;
+                cnt[j]++;
+            }
+        }
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sieve</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

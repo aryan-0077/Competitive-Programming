@@ -1,0 +1,82 @@
+<snippet>
+	<content><![CDATA[
+
+const ll N = 100009;
+ll n, m, sq, lvl[N], vis[N], ind[N];
+vl gr[N];
+vl v;
+
+void dfs(ll node, ll par)
+{
+    vis[node] = 1;
+    v.pb(node);
+    for (auto ne : gr[node])
+    {
+        if (ne == par)
+            continue;
+        if (vis[ne] == 0)
+        {
+            lvl[ne] = lvl[node] + 1;
+            dfs(ne, node);
+        }
+        else
+        { // It is  a back edge
+            if (lvl[node] - lvl[ne] + 1 >= sq)
+            {
+                cout << 2 << nl;
+                ll ct = lvl[node] - lvl[ne] + 1;
+                cout << ct << nl;
+                while (ct--)
+                {
+                    cout << v.back() << " ";
+                    v.pop_back();
+                }
+                exit(0);
+            }
+        }
+    }
+    v.pop_back();
+
+    if (ind[node] == 0)
+    {
+        for (auto ne : gr[node])
+            ind[ne] = 1;
+    }
+}
+
+void solve()
+{
+    cin >> n >> m;
+
+    sq = ceil(sqrt(n));
+    for (ll i = 1; i <= m; i++)
+    {
+        ll a, b;
+        cin >> a >> b;
+
+        gr[a].pb(b);
+        gr[b].pb(a);
+    }
+
+    lvl[1] = 1;
+    dfs(1, 0); // node par
+
+    cout << 1 << nl;
+    ll cp = sq;
+    for (ll i = 1; i <= n; i++)
+    {
+        if (ind[i] == 1)
+            continue;
+        if (cp == 0)
+            break;
+        cout << i << " ";
+        cp--;
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dfs_tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

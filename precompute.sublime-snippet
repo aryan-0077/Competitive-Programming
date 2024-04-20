@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+
+const ll N = 300500;
+ll fact[N];
+ll invFact[N];
+
+void precompute() {
+	fact[0] = invFact[0] = 1;
+    for (int i = 1; i < N; i++) {
+        fact[i] = (fact[i - 1] * i) % MOD;
+        invFact[i] = mod_inverse(fact[i], MOD);
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>precompute</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

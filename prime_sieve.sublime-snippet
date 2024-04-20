@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+// prime sieve
+// n=10 --> 2 3 5 7
+
+vector<ll> primes_less_than_n(ll n){
+	vector<ll> ans;
+	vector<ll> primes(n+4,1);
+
+	for(ll p=2;p*p<=n;p++){
+		if(primes[p]==1){
+			for(ll i=p*p;i<=n;i+=p){
+				primes[i] = false;
+			}
+		}
+	}
+
+	for(ll p=2;p<=n;p++){
+		if(primes[p])
+			ans.push_back(p);
+	}
+
+	return ans;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prime_sieve</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

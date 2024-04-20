@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+		
+// vector<pair<int, int>> v;
+// Sort Vector of pair, just that [Largerst Possible, Corresponding Smallest of the Earlier Largest]
+// ex: [ {3, 5} {1, 4} {3, 2} ]
+// Sort: [ {3, 2} {3, 5} {1, 4} ]
+sort(v.begin(), v.end(), [&](auto const &a, auto const &b){
+   if(a.first != b.first)
+        return a.first > b.first;
+    else
+        return a.second < b.second;
+});
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sort_func</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

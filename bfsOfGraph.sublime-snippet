@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+// src - Source Node / Starting Node
+// vector<int> vis(n, 0);
+// vector<vector<int>> gr(n);
+void bfsOfGraph(int src, vector<int>& vis, vector<vector<int>>& gr) {
+	queue<int> q;
+	q.push(src);
+
+	vis[src] = 1;
+	while (!q.empty()) {
+		int cur = q.front();
+		q.pop();
+
+		for (int child : gr[cur]) {
+			if (vis[child] == 0) {
+				q.push(child);
+				vis[child] = 1;
+			}
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bfsOfGraph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

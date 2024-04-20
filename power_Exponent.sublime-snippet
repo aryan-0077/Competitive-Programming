@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+// It means a^n % p
+ll power(ll a, ll n, ll p){
+   ll res = 1;
+    while(n){
+        if(n%2 == 1){
+            res = (res * a)%p;
+            n--;
+        }else{
+            a = (a * a)%p;
+            n = n/2;
+        }
+    }
+    return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>power_Exponent</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

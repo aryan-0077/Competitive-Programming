@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+#define ll long long int
+class DSU {
+public:
+    vector<ll> parent, rank;
+    DSU(ll n){
+        parent.resize(n, 0);
+        rank.resize(n, 0);
+        
+        for(ll i=0;i<n;i++) parent[i] = i;
+    }
+    
+    ll Find(ll x){
+        return parent[x] = parent[x] == x ? x : Find(parent[x]);
+    }
+    
+    bool Union(ll x, ll y){
+        ll xset = Find(x), yset = Find(y);
+        if(xset != yset){
+            rank[xset] < rank[yset] ? parent[xset] = yset : parent[yset] = xset;
+            rank[xset] += rank[xset] == rank[yset];
+            return true;
+        }
+        return false;
+    }
+};
+// DSU dsu(n);
+// dsu.Union(edgeList[i][0], edgeList[i][1]); // Connect 2 nodes
+// if(dsu.Find(q[0]) == dsu.Find(q[1])) // Find will go to the Parent : Same Component - Same Parent
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DSU</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

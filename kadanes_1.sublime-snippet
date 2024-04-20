@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+
+// Kadane's Algorithm -> Maximum Sub-array Sum
+// Also takes consideration of all negative elements 
+ll maxSubArraySum(vector<ll> &a){
+	ll sz = a.length();
+	ll max_so_far=INT_MIN, max_ending_here=0;
+
+	for(ll i=0;i<sz;i++){
+		max_ending_here = max_ending_here + a[i];
+		if(max_so_far < max_ending_here)
+			max_so_far = max_ending_here;
+
+		if(max_ending_here < 0)
+			max_ending_here = 0;
+	}
+	return max_so_far;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kadanes_1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,116 @@
+<snippet>
+	<content><![CDATA[
+
+// Mod Operations
+ll fast_mod_exp(ll a, ll b, ll m = MOD)
+{
+    ll res = 1;
+    while (b > 0)
+    {
+        if (b & 1)
+            res = (res * a) % m;
+
+        a = (a * a) % m;
+        b = b >> 1;
+    }
+
+    return res;
+}
+
+ll mod_inverse(ll a, ll m = MOD)
+{
+    // m is prime
+    return fast_mod_exp(a, m - 2, m);
+}
+ll add(ll x, ll y, ll m = MOD)
+{
+    x = x%m;
+    y = y%m;
+    ll res = x + y;
+    res = res%m;
+    return (res >= m ? res - m : res);
+}
+ll mul(ll x, ll y, ll m=MOD)
+{
+    x = x%m;
+    y = y%m;
+    ll res = x * y;
+    return (res >= m ? res % m : res);
+}
+ll sub(ll x, ll y, ll m = MOD)
+{
+    x = x%m;
+    y = y%m;
+    ll res = x - y;
+    res = (res + m)%m;
+    return (res < 0 ? res + m : res);
+}
+ll divide(ll x, ll y, ll m = MOD)
+{
+    return mul(x, mod_inverse(y, m));
+}
+
+const ll N = 300500;
+ll fact[N];
+ll invFact[N];
+
+void precompute() {
+	fact[0] = invFact[0] = 1;
+    for (int i = 1; i < N; i++) {
+        fact[i] = (fact[i - 1] * i) % MOD;
+        invFact[i] = mod_inverse(fact[i], MOD);
+    }
+}
+
+ll ncr(ll n, ll r, ll p=MOD) {
+	if (r > n)
+		return 0;
+
+	return ((fact[n] * invFact[r]) % p * invFact[n-r]%p) % p;
+}
+
+// The above technique will find invFactorial of every number in O(nLogn)
+// Below is the approach to find invFactorial in O(n) for all n numbers
+long long factorial[100001] = {}, inv_factorial[100001] = {}, mod = 1000000007;
+class Solution {
+public:
+int modPow(int x, int y, int m)
+{
+    if (y == 0)
+        return 1;
+    long p = modPow(x, y / 2, m) % m;
+    p = (p * p) % m;
+    return y % 2 ? (p * x) % m : p;
+}
+long long binomial_coefficient(int n, int k) {
+    return max(1LL, factorial[n] * inv_factorial[k] % mod * inv_factorial[n - k] % mod);
+}
+int numberOfSequence(int n, vector<int>& sick) {
+    if (!factorial[1]) {
+        long long inv[100001] = {};
+        factorial[1] = inv[1] = inv_factorial[1] = 1;
+        for (int i = 2; i <= 100000; ++i) {
+            factorial[i] = factorial[i - 1] * i % mod;
+            // MAIN MODIFICATION !!
+            inv[i] = mod - mod / i * inv[mod % i] % mod;
+            inv_factorial[i] = inv_factorial[i - 1] * inv[i] % mod;    
+        }
+    }
+    long long res = 1;
+    for (int i = 1; i < sick.size(); ++i) {
+        int group = sick[i] - sick[i - 1] - 1;
+        res = res * modPow(2, max(0, group - 1), mod); // combine
+        res = res % mod * binomial_coefficient(sick[i] - i, group) % mod; // interweave
+    }
+    return res * binomial_coefficient(n - sick.size(), n - sick.back() - 1) % mod;
+}
+};
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ncr</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

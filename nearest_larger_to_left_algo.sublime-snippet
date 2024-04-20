@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+
+
+// 6
+//  2  4 4  9 4  9
+
+// -1 -1 2 -1 4  4
+//  2  3 4  6 6 -1
+
+// Nearest larger or equal element to left and right 
+	ll n;
+    cin >> n;
+
+    ll a[n + 5];
+    for (ll i = 1; i <= n; i++)
+    {
+        cin >> a[i];
+    }
+
+    ll left[n + 6] = {0};
+    stack<ll> s1;
+    for (ll i = 1; i <= n; i++)
+    {
+        while (!s1.empty() && a[s1.top()] < a[i])
+            s1.pop();
+
+        if (s1.empty())
+        {
+            left[i] = -1;
+        }
+        else
+        {
+            left[i] = s1.top();
+        }
+        s1.push(i);
+    }
+
+    ll right[n + 6] = {0};
+    stack<ll> s2;
+    for (ll i = n; i >= 1; i--)
+    {
+        while (!s2.empty() && a[s2.top()] < a[i])
+            s2.pop();
+
+        if (s2.empty())
+        {
+            right[i] = -1;
+        }
+        else
+        {
+            right[i] = s2.top();
+        }
+        s2.push(i);
+    }
+
+    for (ll i = 1; i <= n; i++)
+    {
+        cout << left[i] << " ";
+    }
+    cout << nl;
+
+    for (ll i = 1; i <= n; i++)
+    {
+        cout << right[i] << " ";
+    }
+    cout << nl;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>nearest_larger_to_left_algo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,92 @@
+<snippet>
+	<content><![CDATA[
+
+// Prime Factors
+// Single Query ( All  the prime factors )
+vector<ll> primeFactors(ll n){
+	vector<ll> pfact;
+	while(n%2 == 0){
+		pfact.push_back(2);
+		n = n/2;
+	}
+
+	ll i;
+	for(i=3;i*i<=n;i+=2){
+		while(n%i == 0){
+			pfact.push_back(i);
+			n = n/i;
+		}
+	}
+
+	if(n>2)
+		pfact.push_back(n);
+	return pfact;
+}
+
+// Single Query ( All prime factors but as  {prime factor, count} )
+vector<pll> primeFactors2(ll n)
+{
+    vector<pll> pfact;  // prime_factor count
+    ll ct = 0;
+    while (n % 2 == 0)
+    {
+        ct++;
+        n = n / 2;
+    }
+    if(ct>0)
+        pfact.push_back({2, ct});
+
+    ll i;
+    for (i = 3; i * i <= n; i += 2)
+    {
+        ct = 0;
+        while (n % i == 0)
+        {
+            ct++;
+            n = n / i;
+        }
+        if(ct>0)
+            pfact.push_back({i, ct});
+    }
+
+    if (n > 2)
+        pfact.push_back({n, 1});
+    return pfact;
+}
+
+// Multiple Query ( Use Sieve for this ) ( All  the prime factors )
+vector<ll> getFactorization(ll x){
+	vector<ll> ret;
+	while(x!=1){
+		ret.push_back(spf[x]);
+		x = x/spf[x];
+	}
+	return ret;
+}
+
+// Multiple Query ( Use Sieve for this ) ( All prime factors but as  {prime factor, count} )
+vector<pll> getFactorization2(ll x)
+{
+    vector<pll> ret;
+    map<ll, ll> mp; // TRY TO CHANGE THIS FOR OPTIMIZATION
+    while (x != 1)
+    {
+        // ret.push_back(spf[x]);
+        mp[spf[x]]++;
+        x = x / spf[x];
+    }
+
+    for (auto p : mp)
+    {
+        ret.pb({p.ff, p.ss});
+    }
+
+    return ret;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prime_factors</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

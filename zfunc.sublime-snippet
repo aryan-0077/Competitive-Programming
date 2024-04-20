@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+
+// len of longest substring which is equal to prefix
+vector<ll> zfunc(string s){
+	ll n = s.length();
+	vector<ll> z(n,0);
+
+	ll l=0,r=0;
+	for(ll i=0;i<n;i++){
+		if(i<=r)
+			z[i] = min(r-i+1, z[i-1]);
+
+		while(i+z[i]<n && s[z[i]] == s[i+z[i]])
+			z[i]++;
+
+		if(i+z[i]-1 > r){
+			l = i;
+			r = i+z[i]-1;
+		}
+	}
+
+	return z;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zfunc</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

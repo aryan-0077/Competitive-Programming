@@ -1,0 +1,9 @@
+{
+	"font_size": 15,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"index_files": true,
+	"trim_automatic_white_space": false
+}

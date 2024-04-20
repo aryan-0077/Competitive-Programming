@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+
+// Linear diophantine equation
+// Extended eucledian Algorithm
+ll extended_gcd(ll a, ll b, ll &x, ll &y)
+{
+    if (b == 0)
+    {
+        x = 1;
+        y = 0;
+        return a;
+    }
+
+    ll x1, y1;
+    ll d = extended_gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
+
+bool any_solution(ll a, ll b, ll c, ll &x, ll &y)
+{
+    ll g = __gcd(abs(a), abs(b));
+    if (c % g != 0)
+        return false;
+
+    // Required => a x + b y = c
+    // a x0 + b y0 = g
+    ll x0 = 0, y0 = 0;
+    ll val = extended_gcd(abs(a), abs(b), x0, y0);
+
+    x = x0 * c / g;
+    y = y0 * c / g;
+
+    if (a < 0) x = -x;
+    if (b < 0) y = -y;
+    return true;
+}
+// general solution
+// xg = x + k * b/g   //xg is general x  //x is solution of ax+by=c
+// yg = y - k * a/g   //yg is general y  //y is solution of ax+by=c
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>linear_diophantine</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

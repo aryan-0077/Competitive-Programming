@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+// Function to detect cycle in a directed graph.
+bool cycleInDirectedGraph(int node, vector<int> gr[], vector<bool>& visited, vector<bool>& pathVisited){
+    visited[node] = true;
+    pathVisited[node] = true;
+    
+    for(auto child : gr[node]){
+        if(visited[child] == false){
+            if(cycleInDirectedGraph(child, gr, visited, pathVisited))
+                return true;
+        }else if(pathVisited[child] == true){
+            return true;
+        }
+    }
+    
+    pathVisited[node] = false;
+    return false;
+}
+
+bool isCyclic(int V, vector<int> gr[]) {
+    vector<bool> visited(V, false);
+    vector<bool> pathVisited(V, false);
+    
+    for(int i=0;i<V;i++){
+        if(visited[i]==false)
+            if(cycleInDirectedGraph(i, gr, visited, pathVisited))
+                return true;
+    }
+    return false;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cycle_in_directed_graph2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

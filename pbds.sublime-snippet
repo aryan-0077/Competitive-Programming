@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
+// ordered_set os;
+// os.insert(el);
+// *(os.find_by_order(k)); // kth element in a set starting from 0
+// os.order_of_key(k); // No. of elements strictly less than k
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>pbds</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

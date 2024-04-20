@@ -1,0 +1,66 @@
+<snippet>
+	<content><![CDATA[
+
+// <---- Manacher's Algorithm ---->
+// Indexing is 0 based
+// d1 is for odd length Palindrome ( Size of palindrome length at that index)
+// d2 is for even length Palindrome ( Size of palindrome length, considering 2nd index as main index out of two main indexes)
+
+// Id: 0 1 2 3 4 5 6
+// Ex: a b a b a b c
+// d1: 1 2 3 3 2 1 1 
+// d2: 0 0 0 0 0 0 0
+
+// Id: 0 1 2 3 4 5
+// Ex: c b a a b a
+// d1: 1 1 1 1 2 1
+// d2: 0 0 0 2 0 0
+vector<ll> d1, d2;
+void manachers(string &s){
+	ll n = s.length();
+	d1.clear();
+	d1.resize(n);
+
+	d2.clear();
+	d2.resize(n);
+
+	for (ll i = 0, l = 0, r = -1; i < n; i++) {
+	    ll k = (i > r) ? 1 : min(d1[l + r - i], r - i + 1);
+	    while (0 <= i - k && i + k < n && s[i - k] == s[i + k]) {
+	        k++;
+	    }
+    	d1[i] = k--;
+	    if (i + k > r) {
+	        l = i - k;
+	        r = i + k;
+	    }
+	}
+
+	for (ll i = 0, l = 0, r = -1; i < n; i++) {
+	    ll k = (i > r) ? 0 : min(d2[l + r - i + 1], r - i + 1);
+	    while (0 <= i - k - 1 && i + k < n && s[i - k - 1] == s[i + k]) {
+	        k++;
+	    }
+	    d2[i] = k--;
+	    if (i + k > r) {
+	        l = i - k - 1;
+	        r = i + k ;
+	    }
+	}
+}
+
+// for (ll i = 0; i < n; i++){
+//    cout << d1[i] << " ";
+// }cout << nl;
+
+// for (ll i = 0; i < n; i++){
+//    cout << d2[i] << " ";
+// }cout << nl;
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>manachers_algorithm</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
