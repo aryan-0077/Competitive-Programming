@@ -2,6 +2,10 @@
 	<content><![CDATA[
 
 /* Segment Tree Lazy Propogation Generic Code */
+/*
+- merge(x, identityElement) = x
+- identityTransformation.combine(x) = x
+*/
 class Node{
 public:
 	int v = 0; //We can use more variables depending on what all info we need !
